@@ -1,6 +1,5 @@
 namespace WordPool;
 
-interface Adapter
-{
+interface Adapter {
     public function takeAtRandom(): string;
 }

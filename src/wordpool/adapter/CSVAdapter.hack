@@ -3,47 +3,54 @@ namespace WordPool\Adapter;
 use type WordPool\Adapter;
 use type WordPool\Adapter\CSVAdapterException;
 
-class CSVAdapter implements Adapter
-{
+class CSVAdapter implements Adapter {
     private vec<vec<string>> $data = vec[];
     private int $record_num = 0;
     const int COL_WORD = 0;
 
-    public function __construct(string $filepath): void
-    {
+    public function __construct(string $filepath): void {
         $this->data = $this->readAll($filepath);
         $this->record_num = \count($this->data);
         if ($this->record_num <= 0) {
-            throw new CSVAdapterException(\sprintf('CSV file `%s` is empty.', $filepath));
+            throw new CSVAdapterException(
+                \sprintf('CSV file `%s` is empty.', $filepath),
+            );
         }
     }
 
-    public function takeAtRandom(): string
-    {
-        $last_record_index = $this->record_num-1;
+    public function takeAtRandom(): string {
+        $last_record_index = $this->record_num - 1;
         $selectable_record_limit = \min($last_record_index, \PHP_INT_MAX);
         $selected_record = \random_int(0, $selectable_record_limit);
         return $this->data[$selected_record][self::COL_WORD];
     }
 
-    private function readAll(string $filepath): vec<vec<string>>
-    {
+    private function readAll(string $filepath): vec<vec<string>> {
         $fp = \fopen($filepath, 'r');
         $read_data = vec[];
 
-        while(!\feof($fp)) {
+        while (!\feof($fp)) {
             $line = \fgets($fp);
 
             // arrived EOL or happened fgets error
-            if ($line === false) { break; }
+            if ($line === false) {
+                break;
+            }
 
             // line to record.
             // e.g.) 'hoge,  fuga  ' -> ['hoge', 'fuga']
             // e.g.) '' -> ['']
-            $record = \array_map(($column) ==> { return \trim($column); }, \explode(',',$line));
+            $record = \array_map(
+                ($column) ==> {
+                    return \trim($column);
+                },
+                \explode(',', $line),
+            );
 
             // validate `['']`
-            if(\count($record) === 1 && $record[0] === '') { continue; }
+            if (\count($record) === 1 && $record[0] === '') {
+                continue;
+            }
 
             // convert to vec<string>
             $vec_record = vec[];
