@@ -48,7 +48,7 @@ class CSVAdapter implements Adapter {
             );
 
             // validate `['']`
-            if (\count($record) === 1 && $record[0] === '') {
+            if (\count($record) === 1 && $record[self::COL_WORD] === '') {
                 continue;
             }
 
