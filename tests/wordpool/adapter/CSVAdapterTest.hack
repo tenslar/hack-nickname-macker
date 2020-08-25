@@ -10,7 +10,9 @@ final class CSVAdapterTest extends HackTest
     public function provideCSVLines(): vec<(string, vec<vec<string>>, string)> {
         return vec[
             tuple("aa,bb,cc\ndd,ee,ff", vec[vec['aa', 'bb', 'cc'],vec['dd', 'ee', 'ff']], 'normal csv'),
-            tuple("aa,  ,  cc  \n  \n  dd, ee,ff", vec[vec['aa', '', 'cc'],vec['dd', 'ee', 'ff']], 'whitespace trim'),
+            tuple("aa,bb  ,  cc  \n  \n  dd, ee,ff", vec[vec['aa', 'bb', 'cc'],vec['dd', 'ee', 'ff']], 'whitespace trim'),
+            tuple(',bb,cc', vec[vec['', 'bb', 'cc']], 'part of empty'),
+            tuple(',', vec[vec['', '']], 'empty columns'),
         ];
     }
 
