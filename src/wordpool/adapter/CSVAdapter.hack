@@ -1,7 +1,7 @@
 namespace WordPool\Adapter;
 
 use type WordPool\Adapter;
-use type WordPool\Adapter\CSVAdapterException;
+use type WordPool\Adapter\Exception\DataEmptyException;
 
 class CSVAdapter implements Adapter {
     private vec<vec<string>> $data = vec[];
@@ -12,7 +12,7 @@ class CSVAdapter implements Adapter {
         $this->data = $this->readAll($filepath);
         $this->record_num = \count($this->data);
         if ($this->record_num <= 0) {
-            throw new CSVAdapterException(
+            throw new DataEmptyException(
                 \sprintf('CSV file `%s` is empty.', $filepath),
             );
         }

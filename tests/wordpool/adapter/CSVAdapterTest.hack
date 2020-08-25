@@ -1,6 +1,6 @@
 use function Facebook\FBExpect\expect;
 use type Facebook\HackTest\{DataProvider, HackTest};
-use type WordPool\Adapter\CSVAdapterException;
+use type WordPool\Adapter\Exception\DataEmptyException;
 
 final class CSVAdapterTest extends HackTest
 {
@@ -46,7 +46,7 @@ final class CSVAdapterTest extends HackTest
 
         expect(() ==> {
             new WordPool\Adapter\CSVAdapter(self::TEST_CSV_PATH);
-        })->toThrow(CSVAdapterException::class, \sprintf('CSV file `%s` is empty.', self::TEST_CSV_PATH), $message);
+        })->toThrow(DataEmptyException::class, \sprintf('CSV file `%s` is empty.', self::TEST_CSV_PATH), $message);
 
         \file_put_contents(self::TEST_CSV_PATH,'');
     }
