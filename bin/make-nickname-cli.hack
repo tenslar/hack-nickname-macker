@@ -1,8 +1,9 @@
 #!/usr/bin/env hhvm
+namespace NicknameMacker\Bin\MakeNicknameCLI;
 use type WordPool\Adapter\CSVAdapter;
 
 <<__EntryPoint>>
-function main(): void {
+function make_nickname_cli_main(): void {
     require_once(__DIR__.'/../vendor/autoload.hack');
     \Facebook\AutoloadMap\initialize();
 
@@ -26,5 +27,5 @@ function make_nickname(CSVAdapter $wordPool): string {
 }
 
 function display_word(string $word): void {
-    printf("Your name is `%s` !\n", $word);
+    \printf("Your name is `%s` !\n", $word);
 }
